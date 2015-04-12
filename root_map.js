@@ -88,7 +88,6 @@ $( function(){
 		});
 	}
 	function movePos( add ){
-		console.log(add);
 		var geocoder = new google.maps.Geocoder();
 		geocoder.geocode({
     	address: add

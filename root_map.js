@@ -87,7 +87,6 @@ $( function(){
 			fluster.showClustersInBounds();
 		});
 	}
-
 	function movePos( add ){
 		console.log(add);
 		var geocoder = new google.maps.Geocoder();

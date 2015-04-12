@@ -8,14 +8,14 @@ $( function(){
 	var map;
 	var markers = [];
 
-	var wells;
-
 	var Tokyo = new google.maps.LatLng( 35.41032, 139.44982 );
+
+	var wells;
 
 	google.maps.event.addDomListener( window, 'load', initialize );
 
 	$( "#place_form" ).submit(function(){
-		calcRoute( $( "#place_text" ).val() );
+		movePos( $( "#place_text" ).val() );
     return false;
 	})
 
@@ -88,16 +88,28 @@ $( function(){
 		});
 	}
 
-	function calcRoute( from ) {
-	  var request = {
-	    origin: from,
-	    destination: '渋谷',
-	    travelMode: google.maps.TravelMode.DRIVING
-	  };
-	  directionsService.route( request, function( response, status ) {
-	    if ( status == google.maps.DirectionsStatus.OK ) {
-	      directionsDisplay.setDirections( response );
+	function movePos( add ){
+		console.log(add);
+		var geocoder = new google.maps.Geocoder();
+		geocoder.geocode({
+    	address: add
+	  }, function(results, status) {
+	  	console.log(results);
+	    if (status == google.maps.GeocoderStatus.OK) {
+	      var bounds = new google.maps.LatLngBounds();
+
+	      for (var i in results) {
+	        if (results[i].geometry) {
+
+	          var latlng = results[i].geometry.location;
+
+	          bounds.extend(latlng);
+      			map.fitBounds(bounds);
+      			map.setZoom(10);
+	        }
+	        break;
+	      }
 	    }
-	  });
+    });
 	}
 } );
